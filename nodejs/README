@@ -1,5 +1,17 @@
-Example:
-async.js
-event.js
+To execute the below: node file.js
 
-To execute the example: node file.js
+--- To demonstrate async concept - callback
+async.js
+--- To demonstrate eventemitter concept - .on()
+eventemitter.js
+--- To demonstrate eventloop concept - callback, spawn, .on()
+eventloop.js
+eventloop-spawnprocess.js
+eventloop-spawnprocess-eventemitter.js
+--- To demostrate readstream using eventemitter concept - .on()
+createreadstream-event.js
+
+To execute the below: ./file.js
+
+--- To demonstrate the execution of nodejs without using the command node
+createreadstream.js
