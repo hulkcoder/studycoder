@@ -27,3 +27,10 @@ h = {1=>2, 3=>4}
 h.clear
 
 p h
+
+a = [1,2,3,4,5]
+p a[0..2]
+
+p "RubyAssociation".chomp
+
+p "RubyAssociation\r\n".chop
