@@ -23,7 +23,7 @@ p [1,1,2,3,5,8].flatten {|x| x*2}
 p "join"
 p [1,1,2,3,5,8].join {|x| x*2}
 
-doc = << EOF
- The quick brown fox
- jumps over the lazy dog
-EOF
+h = {1=>2, 3=>4} 
+h.clear
+
+p h
