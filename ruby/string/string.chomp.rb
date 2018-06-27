@@ -1,0 +1,1 @@
+p "RubyAssociation".chomp
