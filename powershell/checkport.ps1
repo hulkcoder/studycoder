@@ -1,4 +1,5 @@
 $servers = [ordered]@{}
+$servers.Add('google.com', '172.217.17.110')
 $port = 25
 Clear-Content "test-report.txt"
 foreach($server in $servers.keys)
