@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
     # Display the VirtualBox GUI when booting the machine
     vb.gui = false
     # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+    vb.memory = "2048"
     # VirtualBox Machine Group
     vb.customize ["modifyvm", :id, "--groups", "/STUDY-TERRAFORM"]
   end
@@ -76,6 +76,7 @@ Vagrant.configure("2") do |config|
 	yum install -y device-mapper-persistent-data lvm2
 	wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
 	yum install -y docker-ce
+	systemctl start docker
   SHELL
 
 end
