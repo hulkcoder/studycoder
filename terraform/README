@@ -1,3 +1,8 @@
 Terraform version: https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip
 Docker CE version: Docker version 18.09.0, build 4d60db4
 Note: Do not use Docker earlier version. By default, CentOS 7 will provide Docker 1.3.1 from CentOS 7 extra repo (http://mirror.centos.org/centos/7/extras/x86_64/Packages/)
+
+Commands:
+terraform init #This command is to pull all the providers
+terraform plan -out a.plan #This command is to generate provisioning plan
+terraform apply "a.plan"
