@@ -71,6 +71,8 @@ Vagrant.configure("2") do |config|
 	yum -y install java-1.8.0-openjdk
 	yum -y install wget
 	useradd jenkins --password $(echo "jenkins123" | openssl passwd -1 -stdin)
+	yum -y install ruby
+	yum -y install git
   SHELL
 
 end
