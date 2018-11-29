@@ -73,6 +73,9 @@ Vagrant.configure("2") do |config|
 	pwd
 	yum -y install unzip
 	unzip terraform_0.11.10_linux_amd64.zip -d /usr/bin/
+	yum install -y device-mapper-persistent-data lvm2
+	wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
+	yum install -y docker-ce
   SHELL
 
 end
