@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 # https://www.linuxtechi.com/install-kubernetes-1-7-centos7-rhel7/
+# sudo kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
