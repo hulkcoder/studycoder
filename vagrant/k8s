@@ -82,8 +82,12 @@ EOF
 	wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
 	yum install -y kubelet kubeadm kubectl docker-ce-18.06.1.ce-3.el7
 	swapoff -a
-	kubeadm init
+	setenforce 0
+	sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux	
 	systemctl enable kubelet && systemctl start kubelet
 	systemctl enable docker && systemctl start docker	  
+	modprobe br_netfilter
+	echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+    kubeadm init
   SHELL
 end
