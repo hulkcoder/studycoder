@@ -80,8 +80,9 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 	yum install -y device-mapper-persistent-data lvm2
 	wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
-	yum install -y kubelet kubeadm kubectl docker-ce
-	yum install -y docker-ce
+	yum install -y kubelet kubeadm kubectl docker-ce-18.06.1.ce-3.el7
+	swapoff -a
+	kubeadm init
 	systemctl enable kubelet && systemctl start kubelet
 	systemctl enable docker && systemctl start docker	  
   SHELL
