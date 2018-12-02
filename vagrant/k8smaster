@@ -1,7 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-# https://www.linuxtechi.com/install-kubernetes-1-7-centos7-rhel7/
-# sudo kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -24,7 +23,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  #config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -38,7 +37,7 @@ Vagrant.configure("2") do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network "public_network", ip: "192.168.0.118"
+  config.vm.network "public_network", bridge: "Intel(R) Dual Band Wireless-AC 8265", ip: "192.168.0.118", bootproto: "static", gateway: "192.168.0.1"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -59,7 +58,7 @@ Vagrant.configure("2") do |config|
 	vb.name = "K8S"
 	vb.cpus = 2
 	vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
-	vb.customize ["modifyvm", :id, "--groups", "/STUDY-K8S"]
+	vb.customize ["modifyvm", :id, "--groups", "/STUDY-K8S"]  
   end
   #
   # View the documentation for the provider you are using for more
@@ -69,11 +68,14 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-	K82HOST=k8smaster.local
-	K82HOSTIP=192.168.0.118
-	K82NETWORKCIDR=192.168.0.0/24
-	hostnamectl set-hostname $K82HOST
-	echo "$K82HOSTIP $K82HOST" >> /etc/hosts
+	K8SHOST=k8smaster.local
+	K8SHOSTIP=192.168.0.118
+	K8SNETWORKCIDR=192.168.0.0/24
+	hostnamectl set-hostname $K8SHOST
+	echo "$K8SHOSTIP $K8SHOST" >> /etc/hosts
+	K8SHOSTNODE1=k8snode1.local
+	K8SHOSTNODE1IP=192.168.0.119
+	echo "$K8SHOSTNODE1IP $K8SHOSTNODE1" >> /etc/hosts
 	swapoff -a
 	setenforce 0
 	sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
@@ -96,7 +98,7 @@ EOF
 	systemctl enable kubelet && systemctl start kubelet
 	systemctl enable docker && systemctl start docker	  
 	kubeadm config images pull
-    kubeadm init --apiserver-advertise-address=$K82HOSTIP --pod-network-cidr=$K82NETWORKCIDR
+    kubeadm init --apiserver-advertise-address=$K8SHOSTIP --pod-network-cidr=$K8SNETWORKCIDR
 	sed -i 's/cgroup-driver=systemd/cgroup-driver=cgroupfs/g' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 	systemctl daemon-reload
 	systemctl restart kubelet
@@ -106,11 +108,11 @@ EOF
 	chown $(id -u):$(id -g) $HOME/.kube/config
 	kubectl get nodes
 	kubectl get pods --all-namespaces
-	export kubever=$(kubectl version | base64 | tr -d '\n')
-	kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 	sleep 60
 	kubectl get nodes
 	kubectl get pods --all-namespaces	
-	kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+	kubectl apply -f "https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"
   SHELL
+
 end
