@@ -73,7 +73,7 @@ Vagrant.configure("2") do |config|
 	K82HOSTIP=192.168.0.118
 	K82NETWORKCIDR=192.168.0.0/24
 	hostnamectl set-hostname $K82HOST
-	echo "$K82HOSTIP $$K82HOST" >> /etc/hosts
+	echo "$K82HOSTIP $K82HOST" >> /etc/hosts
 	swapoff -a
 	setenforce 0
 	sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
