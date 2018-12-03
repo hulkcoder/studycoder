@@ -1,0 +1,1 @@
+Restart-Computer -ComputerName client001 -Force
