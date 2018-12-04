@@ -127,7 +127,27 @@ EOF
 	kubectl get nodes
 	kubectl get pods --all-namespaces	
 	kubectl apply -f "https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"
-	#kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
+cat <<	EOF > /tmp/dashboard-admin.yaml
+{ 
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kubernetes-dashboard
+  labels:
+    k8s-app: kubernetes-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: kubernetes-dashboard
+  namespace: kube-system
+}
+EOF
+	kubectl create -f /tmp/dashboard-admin.yaml
+	kubectl proxy --address 0.0.0.0 --accept-hosts '.*' &
+	cat /tmp/dashboard-admin.yaml
   SHELL
 
 end
