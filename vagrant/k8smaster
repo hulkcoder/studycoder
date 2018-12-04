@@ -111,7 +111,7 @@ EOF
 	sed -i "s/\$KUBELET_EXTRA_ARGS/\$KUBELET_EXTRA_ARGS\ --cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 cat <<	EOF > /etc/docker/daemon.json
 { 
-    "exec-opts": ["native.cgroupdriver=systemd"]
+    "exec-opts": ["native.cgroupdriver=cgroupfs"]
 }
 EOF
 	systemctl daemon-reload
@@ -120,17 +120,14 @@ EOF
 	systemctl status kubelet
 	mkdir -p $HOME/.kube
 	cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-	chown $(id -u):$(id -g) $HOME/.kube/config
-	sleep 60
+	chown $(id -u):$(id -g) $HOME/.kube/config	
 	kubectl get nodes
 	kubectl get pods --all-namespaces
 	kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
-	sleep 60
 	kubectl get nodes
 	kubectl get pods --all-namespaces	
 	kubectl apply -f "https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"
-	sleep 60
-	kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
+	#kubectl proxy --address 0.0.0.0 --accept-hosts '.*'
   SHELL
 
 end
