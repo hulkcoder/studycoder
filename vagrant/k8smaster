@@ -114,21 +114,37 @@ cat <<	EOF > /etc/docker/daemon.json
     "exec-opts": ["native.cgroupdriver=cgroupfs"]
 }
 EOF
+	echo "[ DEBUG ] netstat -na | grep 6433 :: kubernetest api server"
+	netstat -na | grep 6433
+	echo "[ DEBUG ] systemctl daemon-reload"
 	systemctl daemon-reload
-	systemctl restart kubelet
+	echo "[ DEBUG ] systemctl restart docker"
 	systemctl restart docker
-	systemctl status kubelet
+	echo "[ DEBUG ] systemctl restart kubelet"
+	systemctl restart kubelet
+	echo "[ DEBUG ] systemctl status kubelet"
+	systemctl status kubelet	
+	echo "[ DEBUG ] Copy /etc/kubernetes/admin.conf to $HOME/.kube/config"
 	mkdir -p $HOME/.kube
 	cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 	chown $(id -u):$(id -g) $HOME/.kube/config	
+	echo "[ DEBUG ] ping -c 30 $K8SHOST"
+	ping -c 30 $K8SHOST
+	echo "[ DEBUG ] kubectl get nodes"
 	kubectl get nodes
-	kubectl get pods --all-namespaces
-	kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
-	kubectl get nodes
+	echo "[ DEBUG ] kubectl get pods --all-namespaces"
 	kubectl get pods --all-namespaces	
+	echo "[ DEBUG ] Install flannel"
+	kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+	echo "[ DEBUG ] kubectl get nodes"
+	kubectl get nodes
+	echo "[ DEBUG ] kubectl get pods --all-namespaces"
+	kubectl get pods --all-namespaces	
+	echo "[ DEBUG ] Install kubernetes dashboard"
 	kubectl apply -f "https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml"
+echo "[ DEBUG ] Create Service Account for kubernetes dashboard"
 cat <<	EOF > /tmp/dashboard-admin.yaml
-{ 
+---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
@@ -143,10 +159,12 @@ subjects:
 - kind: ServiceAccount
   name: kubernetes-dashboard
   namespace: kube-system
-}
 EOF
+	echo "[ DEBUG ] Install Service Account"
 	kubectl create -f /tmp/dashboard-admin.yaml
+	echo "[ DEBUG ] Create proxy point to access Service Account"
 	kubectl proxy --address 0.0.0.0 --accept-hosts '.*' &
+	echo "[ DEBUG ] Show Service Account for kubernetes dashboard json"
 	cat /tmp/dashboard-admin.yaml
   SHELL
 
