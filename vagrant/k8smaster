@@ -166,6 +166,8 @@ EOF
 	kubectl proxy --address 0.0.0.0 --accept-hosts '.*' &
 	echo "[ DEBUG ] Show Service Account for kubernetes dashboard json"
 	cat /tmp/dashboard-admin.yaml
+	echo "[ DEBUG ] Disable swap area permanently."
+	sed -i "/swapfile/s/^/#/" /etc/fstab
   SHELL
 
 end
