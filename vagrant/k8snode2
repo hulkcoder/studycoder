@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
 	# Customize the amount of memory on the VM:
     vb.memory = "2048"
 	# VirtualBox Machine Name
-	vb.name = "K8SN1"
+	vb.name = "K8SN2"
 	vb.cpus = 2
 	vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
 	vb.customize ["modifyvm", :id, "--groups", "/STUDY-K8S"]  
