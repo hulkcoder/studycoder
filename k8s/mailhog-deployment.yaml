@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mailhog
+  labels:
+    app: fleet
+    component: mailhog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: mailhog
+  template:
+    metadata:
+      labels:
+        app: fleet
+        component: mailhog
+    spec:
+      containers:
+      - name: mailhog
+        image: mailhog/mailhog:latest
+        ports:
+        - name: smtp
+          containerPort: 1025
+        - name: http
+          containerPort: 8025
