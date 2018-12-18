@@ -122,7 +122,7 @@ EOF
 	systemctl restart kubelet
 	echo "[ DEBUG ] systemctl status kubelet"
 	systemctl status kubelet
-	echo "[ DEBUG ] ping -c 30 $K8SHOSTNODE1"
+	echo "[ DEBUG ] ping -c 30 $K8SHOSTNODE2"
 	ping -c 30 $K8SHOSTNODE1
 	echo "[ DEBUG ] Disable swap area permanently."
 	sed -i "/swapfile/s/^/#/" /etc/fstab	
