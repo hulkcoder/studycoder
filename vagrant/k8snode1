@@ -75,6 +75,9 @@ Vagrant.configure("2") do |config|
 	K8SHOSTNODE1IP=192.168.0.119
 	hostnamectl set-hostname $K8SHOSTNODE1
 	echo "$K8SHOSTNODE1IP $K8SHOSTNODE1" >> /etc/hosts
+	K8SHOSTNODE2=k8snode1.local
+	K8SHOSTNODE2IP=192.168.0.120
+	echo "$K8SHOSTNODE2IP $K8SHOSTNODE2" >> /etc/hosts
 	swapoff -a
 	setenforce 0
 	sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
