@@ -5,7 +5,8 @@ class  Surface
     end  
 end  
 class  Volume  <  Surface  
-    attr_reader  :v  
+    attr_reader  :v
+    attr_writer  :v  
     def  initialize(x,y,z)  
         super(x,y)  
         @v  =  x  *  y  *  z  
@@ -13,4 +14,6 @@ class  Volume  <  Surface
 end  
 a  =  Volume.new(2,5,5)  
 puts  "#{a.v},#{a.s}"
-a.v = 1
+a.v = 1 #attr_writer
+puts  "#{a.v},#{a.s}"
+a.s = 9 # undefined method `s=' for #<Volume:0x00000000022a11e0 @s=10, @v=1> (NoMethodError)
