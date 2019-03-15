@@ -1,0 +1,1 @@
+"asdssdss".each_char { |c| print c, ' ' }
