@@ -2,7 +2,7 @@ public class BinaryGap
 {
     public static void main( String[] args )
     {
-        int myint = 9654;
+        int myint = 1041;
         String mybyte = Integer.toBinaryString(myint);
         System.out.println("Binary: " + mybyte);
         int totalbinarygap = 0;        

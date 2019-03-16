@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "CodeLens (Launch) - BinaryGapLength",
+            "request": "launch",
+            "mainClass": "BinaryGapLength"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - BinaryGap",
+            "request": "launch",
+            "mainClass": "BinaryGap"
+        },
+        {
             "name": "Debug Local File",
             "type": "Ruby",
             "request": "launch",
