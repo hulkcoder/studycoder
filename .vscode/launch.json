@@ -6,6 +6,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Reflection",
+            "request": "launch",
+            "mainClass": "Reflection"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CyclicRotation",
+            "request": "launch",
+            "mainClass": "CyclicRotation"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - CyclicRotation",
             "request": "launch",
             "mainClass": "CyclicRotation",
