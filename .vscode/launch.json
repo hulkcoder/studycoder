@@ -5,48 +5,66 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - Reflection",
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
             "request": "launch",
-            "mainClass": "Reflection"
+            "program": "${file}",
+            "console": "integratedTerminal"
         },
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - CyclicRotation",
-            "request": "launch",
-            "mainClass": "CyclicRotation"
+            "name": "Python: Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "port": 5678,
+            "host": "localhost",
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
+            ]
         },
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - CyclicRotation",
+            "name": "Python: Module",
+            "type": "python",
             "request": "launch",
-            "mainClass": "CyclicRotation",
-            "projectName": "studycoder_868fd357"
+            "module": "enter-your-module-name-here",
+            "console": "integratedTerminal"
         },
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - CyclicArray",
+            "name": "Python: Django",
+            "type": "python",
             "request": "launch",
-            "mainClass": "CyclicArray",
-            "projectName": "studycoder_868fd357"
+            "program": "${workspaceFolder}/manage.py",
+            "console": "integratedTerminal",
+            "args": [
+                "runserver",
+                "--noreload",
+                "--nothreading"
+            ],
+            "django": true
         },
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - BinaryGapLength",
+            "name": "Python: Flask",
+            "type": "python",
             "request": "launch",
-            "mainClass": "BinaryGapLength"
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true
         },
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - BinaryGap",
+            "name": "Python: Current File (External Terminal)",
+            "type": "python",
             "request": "launch",
-            "mainClass": "BinaryGap"
-        },
-        {
-            "name": "Debug Local File",
-            "type": "Ruby",
-            "request": "launch",
-            "program": "${workspaceRoot}/byte/byteop.rb"
+            "program": "${file}",
+            "console": "externalTerminal"
         }
     ]
 }
