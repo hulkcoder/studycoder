@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - CyclicRotation",
+            "request": "launch",
+            "mainClass": "CyclicRotation",
+            "projectName": "studycoder_868fd357"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CyclicArray",
+            "request": "launch",
+            "mainClass": "CyclicArray",
+            "projectName": "studycoder_868fd357"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - BinaryGapLength",
             "request": "launch",
             "mainClass": "BinaryGapLength"
