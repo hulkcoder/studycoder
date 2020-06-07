@@ -1,0 +1,58 @@
+pi@mypi3:/etc/network $ cat interfaces
+# interfaces(5) file used by ifup(8) and ifdown(8)
+
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+allow-hotplug wlan1
+iface wlan1 inet manual
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+========
+
+pi@mypi3:/etc/network $ sudo cat /etc/wpa_supplicant/wpa_supplicant.conf 
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=MY
+
+network={
+	ssid="<unifi_ssid>"
+	psk="<unifi_passwd>"
+	key_mgmt=WPA-PSK
+}
+
+========
+
+pi@mypi3:/etc/network/if-up.d $ cat mailip 
+#!/bin/sh -e
+
+COUNT=1000                               	   # Maximum number to try.
+while [ $COUNT -ne 0 ]; do
+    ping -c 1 8.8.8.8                      # Try once.
+    rc=$?
+    if [ $rc -eq 0 ] ; then
+      COUNT=1                      # If okay, flag to exit loop.
+    fi
+    COUNT=$(($COUNT-1))                  # So we don't go forever.
+done
+
+if [ $rc -eq 0 ] ; then                  # Make final determination.
+    echo 'say The internet is back up.'
+    ip=$(hostname -I) 
+    echo "$ip" | mail -s "mypi3 ip" <email>
+else
+    echo 'say Timeout.'
+fi
