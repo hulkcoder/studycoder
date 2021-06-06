@@ -1,7 +1,7 @@
 require 'webrick'
 require 'securerandom'
 
-server = WEBrick::HTTPServer.new :Port => 80
+server = WEBrick::HTTPServer.new :Port => 8080
 
 #Return a successful Hello World response.
 server.mount_proc '/' do |request, response|

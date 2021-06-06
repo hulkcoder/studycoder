@@ -1,0 +1,47 @@
+docker run <docker image name from docker hub>
+example: docker run hello-world
+
+docker images
+
+docker ps
+
+docker ps -a
+
+mkdir test && cd test
+
+docker build -t <new docker image name>:<new docker image tag>
+
+docker run -p <host port>:<container port> --name <docker container name> <docker image name>:<docker image tag>
+
+docker stop <docker container name> && docker rm <docker container name>
+
+docker run -p <host port>:<container port> --name <docker container name> -d(backgroud process parameter) <docker image name>:<docker image tag>
+
+
+docker logs <container id>
+
+docker logs -f(follow/tail log parameter) <container id>
+
+docker exec -it <container_id> bash
+-- parameter it means interact with a container by allocationg a pseudo-tty and stdin open
+
+docker inspect <container id>
+
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container id>
+
+docker tag node-app:0.2 gcr.io/<gcp project id>/node-app:0.2
+
+docker push gcr.io/<gcp project id>/node-app:0.2
+
+docker stop $(docker ps -q)
+-- parameter q means getting the active container id
+
+docker rm $(docker ps -aq)
+-- parameter -aq means getting the all container id (active and not active)
+
+docker rmi <docker image name>:<docker image tag>
+docker rmi <docker image name>:<docker image tag> <docker image name 2>:<docker image tag 2>
+docker rmi $(docker images -aq)
+
+docker pull gcr.io/<gcp project id>/<docker image id>:<docker image tag>
+

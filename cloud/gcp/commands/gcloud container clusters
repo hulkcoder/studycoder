@@ -1,0 +1,83 @@
+gcloud container clusters create <kubernetes cluster name>
+gcloud container clusters create <kubernetes cluster name> --num-nodes <num nodes> --scopes  
+gcloud container clusters get-credentials <kubernetes cluster name>
+kubectl create deployment hello-server --image=gcr.io/google-samples/hello-app:1.0
+kubectl expose deployment hello-server --type=LoadBalancer --port 8080
+kubectl get service
+gcloud container clusters delete <kubernetes cluster name>
+kubectl port-forward <pod name> <host port>:<container port>
+kubectl create secret generic tls-certs --from-file tls/
+kubectl create configmap nginx-proxy-conf --from-file nginx/proxy.conf
+kubectl create -f pods/secure-monolith.yaml
+kubectl create -f services/monolith.yaml
+gcloud compute firewall-rules create allow-monolith-nodeport --allow=tcp:31000
+gcloud compute instances list
+kubectl get pods -l "app=monolith,secure=enabled"
+kubectl get pods --namespace default -l "cluster=spin-deck" -o jsonpath="{.items[0].metadata.name}"
+kubectl label pods secure-monolith 'secure=enabled'
+kubectl get pods secure-monolith --show-labels
+kubectl describe services monolith | grep Endpoints
+curl -ks https://`kubectl get svc frontend -o=jsonpath="{.status.loadBalancer.ingress[0].ip}"`
+kubectl edit deployment <deployment name>
+kubectl get replicaset
+kubectl rollout history deployment/hello
+kubectl rollout pause deployment/hello
+kubectl rollout status deployment/hello
+kubectl get pods -o jsonpath --template='{range .items[*]}{.metadata.name}{"\t"}{"\t"}{.spec.containers[0].image}{"\n"}{end}'
+kubectl rollout resume deployment/hello
+kubectl rollout status deployment/hello
+kubectl scale deployment hello --replicas=3
+kubectl rollout undo deployment/hello
+gcloud container clusters resize
+gcloud container clusters list
+gcloud container clusters get-credentials jenkins-cd
+kubectl cluster-info
+gcloud config get-value account
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+kubectl create clusterrolebinding user-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)
+
+./helm install -n cd stable/jenkins -f jenkins/values.yaml --version 1.2.2 --wait
+-- install stable/jenkins helm chart , given  a helm install name call cd
+
+kubectl get service frontend-external | awk 'BEGIN { cnt=0; } { cnt+=1; if (cnt > 1) print $4; }'
+-- get external IP of application frontend-external
+
+curl -o /dev/null -s -w "%{http_code}\n"  http://$EXTERNAL_IP
+
+
+gcloud beta container clusters create private-cluster \
+    --enable-private-nodes \
+    --master-ipv4-cidr 172.16.0.16/28 \
+    --enable-ip-alias \
+    --create-subnetwork ""
+
+gcloud container clusters update private-cluster \
+    --enable-master-authorized-networks \
+    --master-authorized-networks [MY_EXTERNAL_RANGE]
+
+gcloud container clusters get-credentials private-cluster --zone us-central1-a
+
+kubectl get nodes --output yaml | grep -A4 addresses
+
+kubectl get nodes --output wide
+
+gcloud container clusters delete private-cluster --zone us-central1-a
+
+gcloud compute networks subnets create my-subnet \
+    --network default \
+    --range 10.0.4.0/22 \
+    --enable-private-ip-google-access \
+    --region us-central1 \
+    --secondary-range my-svc-range=10.0.32.0/20,my-pod-range=10.4.0.0/14
+
+gcloud beta container clusters create private-cluster2 \
+    --enable-private-nodes \
+    --enable-ip-alias \
+    --master-ipv4-cidr 172.16.0.32/28 \
+    --subnetwork my-subnet \
+    --services-secondary-range-name my-svc-range \
+    --cluster-secondary-range-name my-pod-range
+    --zone us-central1-a
+
+gcloud container clusters update private-cluster2 --enable-master-authorized-networks --master-authorized-networks 35.239.250.180/32 --zone us-central1-a
+
